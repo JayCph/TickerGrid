@@ -1,0 +1,11 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+database.db
+
+# Node
+node_modules/
+.next/
+dist/
+.env
