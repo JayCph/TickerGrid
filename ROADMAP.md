@@ -5,55 +5,106 @@
 ---
 
 ## 🏗️ Epic 1: The Foundation (Backend & Infrastructure)
-- [ ] **[TG-101] Core API Setup**
-    * **Story:** As a dev, I want a FastAPI server so that the frontend can request market data.
-    * **Tasks:** Initialize FastAPI, set up CORS for `localhost:3000`.
-- [ ] **[TG-102] Data Persistence (SQLite)**
-    * **Story:** As an investor, I want my stocks and notes saved so I don't lose them on refresh.
-    * **Tasks:** Set up SQLAlchemy models for `Ticker` and `Note`.
-- [ ] **[TG-103] Market Data Engine**
-    * **Story:** As an investor, I want real-time prices so I can see my portfolio value.
-    * **Tasks:** Integrate `yfinance` for price and dividend yield fetching.
+
+### ID: [TG-101] — Core API Setup
+* **User Story:** As a dev, I want a FastAPI server so that the frontend can request market data.
+* **Functional Requirements:**
+    * Server must handle requests from `localhost:3000`.
+    * A "Health Check" endpoint at `/`.
+* **Tech Hints:** Use `CORSMiddleware`. Ensure `uvicorn` is used for the dev server.
+* **Status:** [ ] Backlog
+
+### ID: [TG-102] — Data Persistence (SQLite)
+* **User Story:** As an investor, I want my stocks and notes saved so I don't lose them on refresh.
+* **Functional Requirements:**
+    * Create a local `database.db` file.
+    * Define schema for Tickers (symbol, name, type, is_owned).
+    * Define schema for Notes (linked to ticker symbol).
+* **Tech Hints:** Use SQLAlchemy `declarative_base`. Establish a One-to-Many relationship between Tickers and Notes.
+* **Status:** [ ] Backlog
+
+### ID: [TG-103] — Market Data Engine
+* **User Story:** As an investor, I want real-time prices so I can see my portfolio value.
+* **Functional Requirements:**
+    * Fetch current price, currency, and daily change.
+    * Fetch dividend yield data for Chowder calculations.
+* **Tech Hints:** Wrap `yfinance.Ticker(symbol)` in a service function. Add error handling for invalid symbols.
+* **Status:** [ ] Backlog
 
 ---
 
 ## 🗂️ Epic 2: The Grid (Portfolio & Watchlist)
-- [ ] **[TG-201] Manual Entry Interface**
-    * **Story:** As an investor, I want to add my Saxo/Nordnet stocks manually.
-    * **Tasks:** Create a form to input Symbol, Type (Stock/ETF), and Category.
-- [ ] **[TG-202] The TickerGrid View**
-    * **Story:** As an investor, I want a clean minimalist overview of my assets.
-    * **Tasks:** Build the primary Scandi-style grid/list component.
-- [ ] **[TG-203] Watchlist Logic**
-    * **Story:** As an investor, I want to separate things I own from things I'm watching.
-    * **Tasks:** Add a `status` toggle (Owned vs. Watching) to the database.
+
+### ID: [TG-201] — Manual Entry Interface
+* **User Story:** As an investor, I want to add my Saxo/Nordnet stocks manually so I can start tracking them.
+* **Functional Requirements:**
+    * Form field for ticker symbol (auto-uppercase).
+    * Dropdown/Toggle for Asset Type (Stock vs ETF).
+* **Tech Hints:** `POST` request to `/tickers`. Validate symbol exists via `yfinance` before saving.
+* **Status:** [ ] Backlog
+
+### ID: [TG-202] — The TickerGrid View
+* **User Story:** As an investor, I want a clean minimalist overview of my assets so I can see my performance at a glance.
+* **Functional Requirements:**
+    * Display tickers in a responsive grid or list.
+    * Color-coded daily changes (Scandi-style: subtle Emerald for up, soft Rose/Gray for down).
+* **Tech Hints:** Map through ticker array in React. Use CSS Modules for the "Clean" look.
+* **Status:** [ ] Backlog
+
+### ID: [TG-203] — Watchlist Logic
+* **User Story:** As an investor, I want to separate things I own from things I'm watching so my actual portfolio stays clean.
+* **Functional Requirements:**
+    * Toggle switch on each ticker to move it between "Holding" and "Watching".
+    * Filter the main view based on this status.
+* **Tech Hints:** Add a boolean `is_owned` to the database model.
+* **Status:** [ ] Backlog
 
 ---
 
 ## 📰 Epic 3: Intelligence & News
-- [ ] **[TG-301] Toggled News Feed**
-    * **Story:** As an investor, I want to switch between news for my portfolio and my watchlist.
-    * **Tasks:** Build a news component with a toggle switch using `yfinance.news`.
-- [ ] **[TG-302] Chowder Analytics Integration**
-    * **Story:** As an investor, I want to see a stock's Chowder Score to judge its quality.
-    * **Tasks:** Implement the math logic for Dividend Yield + 5yr Dividend Growth.
+
+### ID: [TG-301] — Toggled News Feed
+* **User Story:** As an investor, I want to switch between news for my portfolio and my watchlist so I can focus on specific info.
+* **Functional Requirements:**
+    * Fetch recent news articles for multiple symbols.
+    * UI toggle to swap between the two data sets.
+* **Tech Hints:** Use `ticker.news` on the backend. Aggregate news into a single list sorted by date.
+* **Status:** [ ] Backlog
+
+### ID: [TG-302] — Chowder Analytics Integration
+* **User Story:** As an investor, I want to see a stock's Chowder Score to judge its dividend quality.
+* **Functional Requirements:**
+    * Calculate: Current Yield + 5-Year Dividend Growth Rate.
+    * Display the result with a "Quality" badge.
+* **Tech Hints:** Fetch `dividendRate` and historical dividends from `yfinance`.
+* **Status:** [ ] Backlog
 
 ---
 
 ## 📝 Epic 4: Ticker Notepad (Work in Progress)
-- [ ] **[TG-401] Contextual Note-Taking**
-    * **Story:** As an investor, I want to save my research directly on a stock's profile.
-    * **Tasks:** Create a persistent text area that saves notes to the `Note` table.
-- [ ] **[TG-402] Note Visibility**
-    * **Story:** As an investor, I want my notes to follow the ticker from Watchlist to Portfolio.
-    * **Tasks:** Link notes to ticker symbols globally.
+
+### ID: [TG-401] — Contextual Note-Taking
+* **User Story:** As an investor, I want to save my research directly on a stock's profile so I remember why I like it.
+* **Functional Requirements:**
+    * Autosaving text area for each ticker.
+    * Timestamp for when the note was last updated.
+* **Tech Hints:** Use a `debounce` function in React to avoid hitting the database on every keystroke.
+* **Status:** [ ] Backlog
 
 ---
 
 ## 🎨 Epic 5: UX & Design System
-- [ ] **[TG-501] Scandi-Minimalist Light Mode**
-    * **Story:** As a user, I want a clean, airy interface that feels modern.
-    * **Tasks:** Define the CSS color palette (Whites, soft grays, Emerald accents).
-- [ ] **[TG-502] Dark Mode Implementation**
-    * **Story:** As a user, I want a dark version for nighttime research.
-    * **Tasks:** CSS variables for theme switching.
+
+### ID: [TG-501] — Scandi-Minimalist Light Mode
+* **User Story:** As a user, I want a clean, airy interface so that I don't feel overwhelmed by data.
+* **Functional Requirements:**
+    * High white space, sans-serif typography (Inter/Geist).
+    * Minimalist borders instead of heavy shadows.
+* **Tech Hints:** Define a global CSS variable set for colors: `--bg-primary`, `--text-main`, `--accent-emerald`.
+* **Status:** [ ] Backlog
+
+### ID: [TG-502] — Dark Mode Implementation
+* **User Story:** As a user, I want a dark version for nighttime research.
+* **Functional Requirements:**
+    * Implementation of theme switching using CSS variables.
+* **Status:** [ ] Backlog
