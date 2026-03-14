@@ -12,7 +12,7 @@
     * Server must handle requests from `localhost:3000`.
     * A "Health Check" endpoint at `/`.
 * **Tech Hints:** Use `CORSMiddleware`. Ensure `uvicorn` is used for the dev server.
-* **Status:** [ ] Backlog
+* **Status:** [x] Backlog
 
 ### ID: [TG-102] — Data Persistence (SQLite)
 * **User Story:** As an investor, I want my stocks and notes saved so I don't lose them on refresh.
