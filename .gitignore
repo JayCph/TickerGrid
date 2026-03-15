@@ -1,11 +1,20 @@
+# Editor & OS
+.DS_Store
+.zed/
+.vscode/
+pyrightconfig.json
+
 # Python
 venv/
 __pycache__/
 *.pyc
 database.db
 
-# Node
+# Node & Next.js
 node_modules/
 .next/
 dist/
 .env
+.env.local
+.env.development
+.env.production
