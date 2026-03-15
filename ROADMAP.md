@@ -21,7 +21,7 @@
     * Define schema for Tickers (symbol, name, type, is_owned).
     * Define schema for Notes (linked to ticker symbol).
 * **Tech Hints:** Use SQLAlchemy `declarative_base`. Establish a One-to-Many relationship between Tickers and Notes.
-* **Status:** [ ] Backlog
+* **Status:** [x] Backlog
 
 ### ID: [TG-103] — Market Data Engine
 * **User Story:** As an investor, I want real-time prices so I can see my portfolio value.
