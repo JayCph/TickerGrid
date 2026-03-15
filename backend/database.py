@@ -1,6 +1,5 @@
-import models
-from sqlalchemy import create_all, create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./tickergrid.db"
 
@@ -11,8 +10,8 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-def init_db():
-    models.Base.metadata.create_all(bind=engine)
+class Base(DeclarativeBase):
+    pass
 
 
 def get_db():
