@@ -23,7 +23,6 @@ class Ticker(Base):
     average_buy_price: Mapped[float | None] = mapped_column(default=None)
     quantity: Mapped[float | None] = mapped_column(default=None)
 
-    # Added the cascade rule so transactions are deleted if the ticker is deleted
     transactions: Mapped[list["Transaction"]] = relationship(
         back_populates="ticker", cascade="all, delete-orphan"
     )
